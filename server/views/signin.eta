@@ -1,0 +1,42 @@
+<div
+  style="
+    height: calc(100vh - 100px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  "
+>
+  <div class="card">
+    <h1 style="text-align: center">Welcome Back</h1>
+    <form method="post" action="/auth/login">
+      <fieldset>
+        <label for="email"
+          >Email
+          <input
+            type="email"
+            id="email"
+            name="email"
+            autocomplete="email"
+            placeholder="Email"
+            required
+          />
+        </label>
+        <label for="password"
+          >Password
+          <input
+            type="password"
+            id="password"
+            name="password"
+            autocomplete="password"
+            placeholder="Password"
+            required
+          />
+        </label>
+      </fieldset>
+      <div style="margin-bottom: 10px">
+        <span>Don't have an account? <a href="/auth/signup">Sign up</a></span>
+      </div>
+      <button type="submit" style="margin-bottom: 2rem">Sign in</button>
+    </form>
+  </div>
+</div>

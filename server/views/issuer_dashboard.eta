@@ -1,0 +1,22 @@
+<link rel="stylesheet" href="/static/css/issuer.css" />
+
+
+<div class="dashboard" style=" max-height: 100vh">
+  <%~ include('issuer_sidebar') %>
+  <div>
+    <h2 style=" margin-top: 2rem">Your Courses</h2>
+
+    <div class="courses">
+      <% it.courses.forEach(function(course){ %>
+      <div class=" course-card">
+        <img src=" /static/uploads/<%= course.course_image_url %>" alt="Course Preview" style="width: 100%;  border-radius: 8px; object-fit: cover;" />
+        <strong><%= course.course_name %></strong>
+        <small>
+          <%= JSON.parse(course.student_emails).length %> Students Enrolled
+        </small>
+        <a href="/dashboard/issuer/course/<%= course.id %>" role="button" class="outline">Manage</a>
+      </div>
+      <% }) %>
+    </div>
+  </div>
+</div>

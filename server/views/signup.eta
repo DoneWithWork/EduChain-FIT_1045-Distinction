@@ -1,0 +1,76 @@
+<div style="
+    height: calc(100vh - 100px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  ">
+  <div class="card">
+    <h1 style="text-align: center">Create An Account</h1>
+    <form method="post" action="/auth/signup">
+      <fieldset>
+        <label for="email">Email
+          <input type="email" id="email" name="email" autocomplete="email" placeholder="Email" required />
+        </label>
+
+        <label for="fullname" id="full_name_label">Full Name
+          <input type="text" id="full_name" name="full_name" autocomplete="full_name" placeholder="Full Name" required />
+        </label>
+        <label for="institution_name" id="institution_name_label" style="display: none">Institution Name
+          <input type="text" id="institution_name" name="institution_name" autocomplete="institution_name" placeholder="Institution Name" />
+        </label>
+
+        <label for="password">Password
+          <input type="password" id="password" name="password" autocomplete="password" placeholder="Password" required />
+        </label>
+        <label for="confirm_password">Confirm Password
+          <input type="password" id="confirm_password" name="confirm_password" autocomplete="confirm_password" placeholder="Confirm Password" required />
+        </label>
+        <label>
+          <input name="is_issuer" type="checkbox" role="switch" id="is_issuer" />
+          I want to issue certificates
+        </label>
+      </fieldset>
+      <div style="margin-bottom: 10px">
+        <span>Already have an account? <a href="/auth/signin">Sign in</a></span>
+      </div>
+
+      <button type="submit" onclick="return validatePassword()" style="margin-bottom: 2rem">
+        Sign Up
+      </button>
+    </form>
+  </div>
+</div>
+<script>
+  const checkbox = document.getElementById("is_issuer");
+  const fullName = document.getElementById("full_name_label");
+  const institutionName = document.getElementById("institution_name_label");
+  const institutionInput = document.getElementById("institution_name");
+  const fullNameInput = document.getElementById("full_name");
+
+  checkbox.addEventListener("change", function() {
+    if (this.checked) {
+      console.log("Wants to issue certificates");
+      fullName.style.display = "none";
+      fullNameInput.required = false;
+      institutionName.style.display = "block";
+      institutionInput.required = true;
+    } else {
+      console.log("Does not want to issue certificates");
+      institutionName.style.display = "none";
+      institutionInput.required = false;
+      fullName.style.display = "block";
+      fullNameInput.required = true;
+    }
+  });
+
+  function validatePassword() {
+    const password = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirm_password").value;
+
+    if (password !== confirmPassword) {
+      alert("Passwords do not match!");
+      return false;
+    }
+    return true;
+  }
+</script>

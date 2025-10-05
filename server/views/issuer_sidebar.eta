@@ -1,0 +1,12 @@
+<aside style="height: 100vh">
+  <div class="row">
+    <h3>EduChain</h3>
+    <div class="role" style="background-color: purple">ISSUER</div>
+  </div>
+
+  <li><a href="/dashboard/issuer">Courses</a></li>
+  <li><a href="#">Account</a></li>
+  <li>
+    <a href="/dashboard/issuer/courses/new" class="new_course">+ New Course</a>
+  </li>
+</aside>

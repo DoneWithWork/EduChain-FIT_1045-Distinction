@@ -1,0 +1,54 @@
+<header>
+  <h1>Credentials, Verified.</h1>
+  <p style="font-size: 1.25rem; max-width: 600px; margin: 1rem auto">
+    Enterprise-grade credential issuance & verification. Built on SUI, designed
+    for SaaS scale.
+  </p>
+  <div class="cta">
+    <button onclick="location.href='/auth/signup'">Get Started</button>
+  </div>
+</header>
+
+<section>
+  <h2>Why Choose EduChain?</h2>
+  <div class="metrics">
+    <div class="metric">
+      <h3>99.99%</h3>
+      <p>Uptime guaranteed</p>
+    </div>
+    <div class="metric">
+      <h3>500ms</h3>
+      <p>Average verification speed</p>
+    </div>
+    <div class="metric">
+      <h3>2M+</h3>
+      <p>Credentials issued</p>
+    </div>
+    <div class="metric">
+      <h3>$0.01</h3>
+      <p>Avg cost per verification</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Simple Integration</h2>
+  <p style="max-width: 600px; margin: auto">
+    Plug into your SaaS workflow. REST APIs, Webhooks, and SDKs for instant
+    adoption.
+  </p>
+</section>
+
+<section>
+  <h2>Secure, Scalable, Verified</h2>
+  <p style="max-width: 600px; margin: auto">
+    Built with SUI’s high-throughput blockchain, but not bound by it. Our
+    platform delivers seamless credentialing without complexity.
+  </p>
+</section>
+
+<footer
+  style="padding: 2rem; text-align: center; font-size: 0.9rem; color: #8b949e"
+>
+  © 2025 EduChain – Blockchain-Powered Credentialing
+</footer>

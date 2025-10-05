@@ -1,0 +1,53 @@
+<link rel="stylesheet" href="/static/css/issuer.css" />
+
+<div class="dashboard" style="overflow-y: scroll; height: 100vh">
+  <%~ include('issuer_sidebar') %>
+  <div style="padding: 1rem; width: 100%">
+    <h2>Create New Course</h2>
+    <form
+      method="POST"
+      action="/dashboard/courses/new"
+      enctype="multipart/form-data"
+    >
+      <fieldset>
+        <label for="course_name">Course Name</label>
+        <input
+          type="text"
+          id="course_name"
+          name="course_name"
+          placeholder="e.g., Blockchain Fundamentals"
+          required
+        />
+
+        <label for="course_description">Description</label>
+        <textarea
+          id="course_description"
+          name="course_description"
+          placeholder="Briefly describe the course..."
+          rows="3"
+          required
+        ></textarea>
+
+        <label for="course_image" style="padding: 10px">Course Image</label>
+        <input
+          type="file"
+          id="course_image"
+          name="course_image"
+          accept="image/*"
+          required
+        />
+
+        <label for="student_emails">Student Emails</label>
+        <textarea
+          id="student_emails"
+          name="student_emails"
+          placeholder="Enter student emails, separated by commas"
+          rows="3"
+          required
+        ></textarea>
+
+        <button type="submit">Create Course</button>
+      </fieldset>
+    </form>
+  </div>
+</div>
