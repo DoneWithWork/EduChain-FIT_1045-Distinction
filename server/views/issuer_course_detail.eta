@@ -1,0 +1,45 @@
+<link rel="stylesheet" href="/static/css/issuer.css" />
+
+<div class="dashboard" style="height: 100vh; overflow-y: auto;">
+  <%~ include('issuer_sidebar') %>
+
+  <div class="course-page" style="padding: 2rem; width: 100%;">
+
+    <header class="course-header" style="display: flex; align-items: center; gap: 2rem; flex-wrap: wrap;">
+      <div class="course-image-wrapper" style="flex: 1 1 300px; max-width: 450px;">
+        <img src="/static/uploads/<%= it.course.course_image_url %>" alt="Course Preview" style="width: 100%; border-radius: 12px; object-fit: cover; box-shadow: 0 4px 20px rgba(0,0,0,0.3);" />
+      </div>
+
+      <div class="course-info" style="flex: 2 1 400px;">
+        <h1 style="font-size: 2rem; margin-bottom: 0.5rem; color: #e6edf3;">
+          <%= it.course.course_name %>
+        </h1>
+        <p style="color: #9aa3b2; font-size: 1.1rem; line-height: 1.5;">
+          <%= it.course.course_description %>
+        </p>
+      </div>
+    </header>
+
+    <section class="course-details" style="margin-top: 2rem;">
+      <h3 style="font-size: 1.3rem; color: #e6edf3; border-bottom: 1px solid #333; padding-bottom: 0.5rem; margin-bottom: 1rem;">
+        Enrolled Students
+      </h3>
+      <div class="student-list" style="display: flex; flex-wrap: wrap; gap: 0.75rem;">
+        <% JSON.parse(it.course.student_emails).forEach(email => { %>
+        <span style="background-color: #202632; padding: 0.5rem 0.75rem; border-radius: 20px; font-size: 0.9rem; color: #d0d7de;">
+          <%= email.trim() %>
+        </span>
+        <% }) %>
+      </div>
+    </section>
+
+    <footer style="margin-top: 3rem; text-align: right;">
+      <a href="/dashboard/issuer" style="text-decoration: none;">
+        <button style="background-color: #1f6feb; color: white; padding: 0.6rem 1.2rem; border: none; border-radius: 6px; cursor: pointer;">
+          Back to Courses
+        </button>
+      </a>
+    </footer>
+
+  </div>
+</div>

@@ -1,0 +1,45 @@
+# --- Node / TypeScript ---
+node_modules/
+.env
+.env.local
+.env.development
+.env.production
+dist/
+build/
+.tsx-cache/
+*.js.map
+*.d.ts.map
+*.tsbuildinfo
+uploads/
+
+# --- Move build artifacts ---
+build/
+Move.lock
+*.mv
+*.bcs
+.move-toolchain/
+
+# --- Logs & debug ---
+logs/
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# --- Editor / IDE ---
+.vscode/
+.idea/
+.DS_Store
+*.swp
+
+# --- Coverage & cache ---
+coverage/
+.cache/
+.tmp/
+out/
+
+# --- OS junk ---
+Thumbs.db
+ehthumbs.db
+desktop.ini

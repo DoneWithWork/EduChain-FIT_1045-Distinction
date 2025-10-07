@@ -1,17 +1,17 @@
 /* Base dark background with subtle gradient */
 body {
-  background: radial-gradient(circle at 20% 30%, #1e1e2f, #0d1117 80%);
   color: #e6edf3;
   font-family: "Inter", sans-serif;
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
+  height: 100%;
 }
 
 /* Abstract gradient blobs */
 body::before,
 body::after {
   content: "";
-  position: absolute;
+  position: fixed;
   border-radius: 50%;
   filter: blur(120px);
   opacity: 0.35;
@@ -25,6 +25,7 @@ body::before {
   left: -100px;
   background: radial-gradient(circle, #4f46e5, #9333ea);
   animation: float1 20s infinite alternate ease-in-out;
+  overflow: hidden;
 }
 
 body::after {
@@ -34,6 +35,7 @@ body::after {
   right: -150px;
   background: radial-gradient(circle, #06b6d4, #3b82f6);
   animation: float2 25s infinite alternate ease-in-out;
+   overflow: hidden;
 }
 
 /* Gentle floating motion */
@@ -60,9 +62,10 @@ html {
 }
 
 header, section {
-  padding: 2rem 1.5rem; /* tighter vertical rhythm */
+  padding: 2rem 1.5rem; 
   text-align: center;
   max-width: 1200px;
+  margin: 0 auto;
 }
 
 /* Headings */
@@ -71,7 +74,7 @@ h1, h2, h3 {
   margin-bottom: 0.75rem;
 }
 h1 {
-  font-size: 1.75rem; /* smaller but still striking */
+  font-size: 1.75rem; 
   color: #58a6ff;
 }
 h2 {
@@ -82,7 +85,6 @@ h3 {
   font-size: 1.125rem;
   color: #58a6ff;
 }
-/* Metrics grid */
 .metrics {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));

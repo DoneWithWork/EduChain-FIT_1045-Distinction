@@ -2,52 +2,30 @@
 
 <div class="dashboard" style="overflow-y: scroll; height: 100vh">
   <%~ include('issuer_sidebar') %>
+
   <div style="padding: 1rem; width: 100%">
+    <% if (it.error) {%>
+    <article class="error-message"><%= it.error %></article>
+
+    <% } %>
     <h2>Create New Course</h2>
-    <form
-      method="POST"
-      action="/dashboard/courses/new"
-      enctype="multipart/form-data"
-    >
+    <form method="POST" action="/dashboard/courses/new" enctype="multipart/form-data">
       <fieldset>
         <label for="course_name">Course Name</label>
-        <input
-          type="text"
-          id="course_name"
-          name="course_name"
-          placeholder="e.g., Blockchain Fundamentals"
-          required
-        />
+        <input type="text" id="course_name" name="course_name" placeholder="e.g., Blockchain Fundamentals" value="<%= it.formData?.course_name || '' %>" required />
 
         <label for="course_description">Description</label>
-        <textarea
-          id="course_description"
-          name="course_description"
-          placeholder="Briefly describe the course..."
-          rows="3"
-          required
-        ></textarea>
+        <textarea id="course_description" name="course_description" placeholder="Briefly describe the course..." rows="3" required><%= it.formData?.course_description || '' %></textarea>
 
         <label for="course_image" style="padding: 10px">Course Image</label>
-        <input
-          type="file"
-          id="course_image"
-          name="course_image"
-          accept="image/*"
-          required
-        />
+        <input type="file" id="course_image" name="course_image" accept="image/*" required />
 
         <label for="student_emails">Student Emails</label>
-        <textarea
-          id="student_emails"
-          name="student_emails"
-          placeholder="Enter student emails, separated by commas"
-          rows="3"
-          required
-        ></textarea>
+        <textarea id="student_emails" name="student_emails" placeholder="Enter student emails, separated by commas" rows="3" required><%= it.formData?.student_emails || '' %></textarea>
 
         <button type="submit">Create Course</button>
       </fieldset>
     </form>
+
   </div>
 </div>

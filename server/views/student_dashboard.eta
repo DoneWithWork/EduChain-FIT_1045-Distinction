@@ -1,0 +1,35 @@
+<link rel="stylesheet" href="/static/css/issuer.css" />
+
+<div class="dashboard" style="max-height: 100vh">
+  <%~ include('student_sidebar') %>
+  <div style="padding: 1rem; max-height: 100vh; overflow-y: scroll">
+    <h2 style="margin-top: 2rem">Your Courses</h2>
+
+    <% if (!it.courses || it.courses.length === 0) { %>
+    <p>No courses enrolled yet.</p>
+    <% } else { %>
+    <div class="courses">
+      <% it.courses.forEach(function(course) { %>
+      <div class="course-card">
+        <img
+          src="/static/uploads/<%= course.course_image_url %>"
+          alt="Course Preview"
+          style="width: 100%; border-radius: 8px; object-fit: cover"
+        />
+        <strong><%= course.course_name %></strong>
+        <small>
+          Enrolled on <%= new Date(course.created_at).toLocaleDateString() %>
+        </small>
+        <a
+          href="/dashboard/student/courses/<%= course.id %>"
+          role="button"
+          class="outline"
+        >
+          View Course
+        </a>
+      </div>
+      <% }) %>
+    </div>
+    <% } %>
+  </div>
+</div>

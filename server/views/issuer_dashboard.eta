@@ -3,7 +3,7 @@
 
 <div class="dashboard" style=" max-height: 100vh">
   <%~ include('issuer_sidebar') %>
-  <div>
+  <div style="padding: 1rem;max-height: 100vh; overflow-y: scroll;">
     <h2 style=" margin-top: 2rem">Your Courses</h2>
 
     <div class="courses">
@@ -14,7 +14,7 @@
         <small>
           <%= JSON.parse(course.student_emails).length %> Students Enrolled
         </small>
-        <a href="/dashboard/issuer/course/<%= course.id %>" role="button" class="outline">Manage</a>
+        <a href="/dashboard/issuer/courses/<%= course.id %>" role="button" class="outline">Manage</a>
       </div>
       <% }) %>
     </div>

@@ -1,0 +1,128 @@
+<link rel="stylesheet" href="/static/css/issuer.css" />
+
+<div class="dashboard" style="height: 100vh; overflow-y: auto">
+  <%~ include('student_sidebar') %>
+
+  <div class="course-page" style="padding: 2rem; width: 100%">
+    <header
+      class="course-header"
+      style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap"
+    >
+      <div
+        class="course-image-wrapper"
+        style="flex: 1 1 350px; max-width: 550px"
+      >
+        <img
+          src="/static/uploads/<%= it.course.course_image_url %>"
+          alt="Course Preview"
+          style="
+            width: 100%;
+            border-radius: 12px;
+            object-fit: cover;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+          "
+        />
+
+        <div
+          class="row"
+          style="justify-content: space-between; margin-top: 0.4rem"
+        >
+          <p style="text-align: left">
+            <strong style="color: #e6edf3">Instructor:</strong> <%=
+            it.course.full_name %>
+          </p>
+          <p>
+            <strong
+              ><%= new Date(it.course.created_at).toDateString() %></strong
+            >
+          </p>
+        </div>
+      </div>
+
+      <div class="course-info" style="flex: 2 1 400px">
+        <h1 style="font-size: 2rem; margin-bottom: 0.5rem; color: #e6edf3">
+          <%= it.course.course_name %>
+        </h1>
+        <p style="color: #9aa3b2; font-size: 1.1rem; line-height: 1.5">
+          <%= it.course.course_description %>
+        </p>
+      </div>
+    </header>
+    <%if (it.course.cert_hash) {%>
+    <div
+      style="
+        margin-top: 2rem;
+        padding: 1rem;
+        background-color: #1e1e1e;
+        border-radius: 8px;
+      "
+    >
+      <h2 style="color: #e6edf3; margin-bottom: 0.5rem">Certificate Status</h2>
+      <p style="color: #9aa3b2; font-size: 1.1rem; line-height: 1.5">
+        Your certificate has been minted! You can view it on the blockchain
+        explorer:
+      </p>
+      <p>Digest: <%= it.course.cert_hash %></p>
+      <a
+        href="https://suiscan.xyz/testnet/tx/<%= it.course.cert_hash %>"
+        target="_blank"
+        style="color: #1f6feb; text-decoration: none; font-weight: bold"
+      >
+        View Certificate on Sui Explorer
+      </a>
+    </div>
+    <% } else { %>
+    <div style="width: 100%; display: flex; justify-content: center">
+      <button id="mintButton" onclick="MintNewCert()" class="mint-btn">
+        Minting
+      </button>
+    </div>
+    <% } %>
+
+    <footer style="margin-top: 3rem; text-align: right">
+      <a href="/dashboard/student" style="text-decoration: none">
+        <button
+          style="
+            background-color: #1f6feb;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+          "
+        >
+          Back to Courses
+        </button>
+      </a>
+    </footer>
+  </div>
+</div>
+<script>
+  const disabled = false;
+  const mintButton = document.getElementById("mintButton");
+  async function MintNewCert() {
+    mintButton.disabled = true;
+    mintButton.setAttribute("aria-busy", "true");
+    mintButton.innerText = "Minting...";
+    console.log("Minting new cert...");
+    const res = await fetch("/mint-cert", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        cert_id: "<%= it.course.cert_id  %>",
+      }),
+    });
+    const data = await res.json();
+    if (data.success) {
+      alert("Certificate minted successfully! Check your dashboard.");
+      window.location.href = "/dashboard/student";
+    } else {
+      alert("Error minting certificate: " + data.error);
+      mintButton.disabled = false;
+      mintButton.removeAttribute("aria-busy");
+      mintButton.innerText = "Mint";
+    }
+  }
+</script>

@@ -1,0 +1,30 @@
+<div
+  style="
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  "
+>
+  <h1>Certificate Viewer</h1>
+  <p>View certificates from users by email</p>
+  <div style="width: 100%; max-width: 800px; margin: 30px auto">
+    <input
+      type="text"
+      placeholder="Enter user email"
+      id="emailInput"
+      style="width: 100%"
+    />
+  </div>
+</div>
+<script>
+  const emailInput = document.getElementById("emailInput");
+  emailInput.addEventListener("keypress", function (e) {
+    if (e.key === "Enter") {
+      const email = emailInput.value;
+      if (email) {
+        window.location.href = `/dashboard/certificates?email=${email}`;
+      }
+    }
+  });
+</script>

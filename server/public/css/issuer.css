@@ -1,3 +1,6 @@
+ html{
+  scroll-behavior: smooth;
+ }
  .dashboard {
     display: grid;
     grid-template-columns: 250px 1fr;
@@ -69,3 +72,49 @@
       grid-template-columns: 1fr;
     }
   }
+  .error-message {
+    background-color: #ffdddd;
+    border-left: 6px solid #f44336;
+    margin-bottom: 15px;
+    padding: 10px;
+    color: #a94442;
+  }
+
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: rgba(10, 15, 25, 0.9);
+  border-radius: 10px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #00c6ff 0%, #0072ff 100%);
+  border-radius: 10px;
+  box-shadow: 0 0 8px rgba(0, 136, 255, 0.6);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #00e0ff 0%, #3399ff 100%);
+  box-shadow: 0 0 12px rgba(0, 170, 255, 0.9);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #0099ff rgba(10, 15, 25, 0.9);
+}
+
+.mint-btn {
+  width: 300px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}

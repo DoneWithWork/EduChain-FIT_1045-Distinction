@@ -25,8 +25,8 @@
       <p>Credentials issued</p>
     </div>
     <div class="metric">
-      <h3>$0.01</h3>
-      <p>Avg cost per verification</p>
+      <h3>1M+</h3>
+      <p>Number of certs minted</p>
     </div>
   </div>
 </section>
@@ -48,7 +48,13 @@
 </section>
 
 <footer
-  style="padding: 2rem; text-align: center; font-size: 0.9rem; color: #8b949e"
+  style="
+    padding: 2rem;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #8b949e;
+    height: 100px;
+  "
 >
   © 2025 EduChain – Blockchain-Powered Credentialing
 </footer>

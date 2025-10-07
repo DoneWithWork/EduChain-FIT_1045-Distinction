@@ -6,6 +6,13 @@ declare module 'fastify' {
             id: number
             email: string
             role: string
+        },
+
+    }
+    interface FastifyReply {
+        locals?: {
+            role: string
         }
     }
 }
+
