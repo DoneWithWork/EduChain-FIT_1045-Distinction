@@ -1,12 +1,17 @@
+import { App } from './app.js';
 
+const app = new App();
 
-import { App } from "./app.js"
+// Local start (dev/build)
+if (!process.env.VERCEL) {
+    app.start(8080).catch((err) => {
+        console.error(err);
+        process.exit(1);
+    });
+}
 
-const app = new App()
-app.start(8080).catch((err) => {
-    // Logging mirrors original behaviour: surface critical errors and exit.
-    // Any uncaught startup error should fail fast to avoid partial runs.
-    console.error(err)
-    process.exit(1)
-})
-
+// For Vercel serverless
+export default async function handler(req: any, res: any) {
+    await app.server.ready();
+    app.server.routing(req, res);
+}
