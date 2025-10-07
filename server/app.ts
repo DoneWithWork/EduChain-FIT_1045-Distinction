@@ -46,99 +46,44 @@ export class App {
      * A list of async route registration callbacks.
      * Each function receives the Fastify instance and registers a related set of routes.
      */
-    private routeRegistrations: Array<(app: FastifyInstance) => Promise<void> | void>
 
     constructor() {
-        // Resolve file and directory paths for ESM context
         const __filename = fileURLToPath(import.meta.url)
         const __dirname = dirname(__filename)
 
-        // Create the Fastify application instance
         this.server = fastify()
-
-        // Initialize the Eta template engine
         this.eta = new Eta()
-
-        // Assign resolved paths to class properties
         this.__filename = __filename
         this.__dirname = __dirname
 
-        /**
-         * -------------------------------
-         * 🔧 Plugin Registrations
-         * -------------------------------
-         * The order of registration is preserved from the original file.
-         * Fastify plugins extend or modify request/response lifecycle hooks.
-         */
+        this.server.register(fastifyFormbody)
+        this.server.register(cookie, { secret: 'my-secret', hook: 'onRequest' })
+        this.server.register(fastifyMultipart)
+        this.server.register(cors, { origin: ['http://[::1]:8080'], methods: ['GET', 'POST'] })
+        this.server.register(sessionAuth, { exclude: ['/auth/*', '/static/*', '/'] })
+        this.server.register(fastifyStatic, { root: join(this.__dirname, 'public'), prefix: '/static/' })
+        this.server.register(fastifyView, { engine: { eta: this.eta }, root: join(this.__dirname, 'views'), viewExt: 'eta' })
 
-        this.server.register(fastifyFormbody) // Parse URL-encoded form data
-
-        this.server.register(cookie, {
-            secret: 'my-secret',      // Cookie signing secret
-            hook: 'onRequest'         // Attach cookies early in lifecycle
+        // register routes immediately
+        this.server.register(async (app) => {
+            await this.registerRootRoutes(app)
+            await this.registerAuthRoutes(app)
+            await this.registerDashboardRoutes(app)
+            app.route(mintCert)
         })
 
-        this.server.register(fastifyMultipart) // Support file uploads
-
-        // CORS configuration allows specific frontend origins and methods
-        this.server.register(cors, {
-            origin: ['http://[::1]:8080'],
-            methods: ['GET', 'POST']
-        })
-
-        // Register custom session authentication middleware
-        this.server.register(sessionAuth, {
-            exclude: ['/auth/*', '/static/*', '/'] // Routes excluded from session checks
-        })
-
-        // Serve static files (images, CSS, JS) from the /public directory
-        this.server.register(fastifyStatic, {
-            root: join(this.__dirname, 'public'),
-            prefix: '/static/'
-        })
-
-        // Register Eta view engine for template rendering
-        this.server.register(fastifyView, {
-            engine: { eta: this.eta },
-            root: join(this.__dirname, 'views'),
-            viewExt: 'eta'
-        })
-
-        /**
-         * Modular route registration functions.
-         * Each item corresponds to a route group, allowing separation of logic.
-         */
-        this.routeRegistrations = [
-            this.registerRootRoutes.bind(this),
-            this.registerAuthRoutes.bind(this),
-            this.registerDashboardRoutes.bind(this)
-        ]
+        // for debugging: print available routes
+        this.server.ready().then(() => console.log(this.server.printRoutes()))
     }
 
-    /**
-     * Start the Fastify web server.
-     * 
-     * @param port - Port number or string to listen on.
-     * 
-     * The method registers all routes, then starts listening on the given port.
-     * Returns a Promise that resolves once the server has successfully started.
-     */
     public async start(port: number | string) {
-        // Register each route group sequentially
-        for (const register of this.routeRegistrations) {
-            await register(this.server)
-        }
-
-        // Mint certificate route is added after all others (preserves original order)
-        this.server.route(mintCert)
-
-        // Normalize port input
         const portNumber = typeof port === 'string' ? parseInt(port, 10) : port
-
-        // Begin listening
         await this.server.listen({ port: portNumber })
         console.log(`🚀 Server listening at http://localhost:${portNumber}`)
     }
+
+
+
 
     /**
      * Register all root-level public routes (non-authenticated pages).
