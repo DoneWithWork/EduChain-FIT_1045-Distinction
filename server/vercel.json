@@ -1,12 +1,15 @@
 {
   "version": 2,
-  "functions": {
-    "api/index.ts": {
-      "runtime": "nodejs20.x",
-      "includeFiles": "{views/**,public/**,routes/**,migrations/**}"
-    }
-  },
+  "builds": [
+    { "src": "index.ts", "use": "@vercel/node" }
+  ],
   "routes": [
-    { "src": "/(.*)", "dest": "api/index.ts" }
+    { "src": "/(.*)", "dest": "index.ts" }
+  ],
+   "includeFiles": [
+    "views/**",
+    "public/**",
+    "routes/**",
+    "migrations/**"
   ]
 }
