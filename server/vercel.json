@@ -8,12 +8,7 @@
   ],
   "functions": {
     "index.ts": {
-      "includeFiles": [
-        "views/**/*",
-        "public/**/*",
-        "routes/**/*",
-        "migrations/**/*"
-      ]
+      "includeFiles": "{views/**,public/**,routes/**,migrations/**}"
     }
   }
 }
