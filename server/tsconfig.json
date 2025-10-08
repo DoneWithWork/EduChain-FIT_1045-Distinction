@@ -4,9 +4,9 @@
     "noEmitOnError": false,
     "strict": true,
     "esModuleInterop": true,
-    "moduleResolution": "NodeNext",
+    "moduleResolution": "node",
     "target": "ES2022",
-    "module": "nodenext",
+    "module": "esnext",
     "outDir": "dist"
   },
 }

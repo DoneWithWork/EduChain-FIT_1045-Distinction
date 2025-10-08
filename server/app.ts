@@ -75,7 +75,16 @@ export class App {
         // for debugging: print available routes
         this.server.ready().then(() => console.log(this.server.printRoutes()))
     }
-
+    /**
+     * Handles a single request/response pair.
+     * 
+     * This allows the Fastify instance to run in a serverless environment (e.g., Vercel),
+     * where requests are passed into a function rather than a persistent server.
+     */
+    public async handler(req: any, reply: any) {
+        await this.server.ready()
+        this.server.server.emit('request', req, reply)
+    }
     public async start(port: number | string) {
         const portNumber = typeof port === 'string' ? parseInt(port, 10) : port
         await this.server.listen({ port: portNumber })

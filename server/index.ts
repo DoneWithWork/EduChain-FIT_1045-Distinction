@@ -2,16 +2,13 @@ import { App } from './app.js'
 
 const app = new App()
 
-// Local mode (when run via `node index.js`)
-if (process.env.VERCEL === undefined) {
-    app.start(8080).catch(err => {
-        console.error(err)
-        process.exit(1)
-    })
+// If Vercel calls this file as a function export
+export default async function handler(req: any, reply: any) {
+    await app.handler(req, reply)
 }
 
-// Serverless mode (Vercel)
-export default async function handler(req: any, res: any) {
-    await app.server.ready()
-    app.server.server.emit('request', req, res)
+// If run directly with `node index.js`, start server normally
+if (process.argv[1].includes('index.js') || process.argv[1].includes('index.ts')) {
+    const PORT = process.env.PORT || 8080
+    app.start(PORT)
 }

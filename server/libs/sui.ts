@@ -1,8 +1,6 @@
 import { getFullnodeUrl, SuiClient } from '@mysten/sui/client';
-import { getFaucetHost, requestSuiFromFaucetV2 } from '@mysten/sui/faucet';
-import { MIST_PER_SUI } from '@mysten/sui/utils';
 import { Ed25519Keypair } from '@mysten/sui/keypairs/ed25519';
-import dotenv from "dotenv"
+import dotenv from "dotenv";
 dotenv.config();
 
 const SUI_ADDRESS = process.env.SUI_ADDRESS!

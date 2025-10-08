@@ -5,10 +5,11 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "start": "node index.js",
+    "prebuild": "rm -rf dist",
+    "build": "tsup index.ts --out-dir dist --format esm,cjs --target node18 --dts --clean && cp -r views dist/views && cp -r migrations dist/migrations && cp -r public dist/public",
+    "start": "node dist/index.js",
     "db:migrate": "node migrate.js",
- "dev": "tsx watch index.ts -- --no-sourcemap --cache-dir .tsx-cache"
+    "dev": "tsx watch index.ts -- --no-sourcemap --cache-dir .tsx-cache"
   },
   "keywords": [],
   "author": "",
@@ -35,6 +36,7 @@
     "@types/node": "^24.6.2",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
+    "tsup": "^8.5.0",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3"
   }
