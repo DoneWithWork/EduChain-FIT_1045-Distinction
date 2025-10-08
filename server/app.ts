@@ -59,7 +59,7 @@ export class App {
         this.server.register(fastifyFormbody)
         this.server.register(cookie, { secret: 'my-secret', hook: 'onRequest' })
         this.server.register(fastifyMultipart)
-        this.server.register(cors, { origin: ['http://[::1]:8080'], methods: ['GET', 'POST'] })
+        this.server.register(cors, { origin: ['http://[::1]:3000'], methods: ['GET', 'POST'] })
         this.server.register(sessionAuth, { exclude: ['/auth/*', '/static/*', '/'] })
         this.server.register(fastifyStatic, { root: join(this.__dirname, 'public'), prefix: '/static/' })
         this.server.register(fastifyView, { engine: { eta: this.eta }, root: join(this.__dirname, 'views'), viewExt: 'eta' })
@@ -86,8 +86,10 @@ export class App {
         this.server.server.emit('request', req, reply)
     }
     public async start(port: number | string) {
-        const portNumber = typeof port === 'string' ? parseInt(port, 10) : port
-        await this.server.listen({ port: portNumber })
+        let portNumber = typeof port === 'string' ? parseInt(port, 10) : port
+        const host = ("RENDER" in process.env) ? `0.0.0.0` : `localhost`;
+
+        await this.server.listen({ host, port: portNumber })
         console.log(`🚀 Server listening at http://localhost:${portNumber}`)
     }
 
