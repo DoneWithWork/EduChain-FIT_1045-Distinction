@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "prebuild": "rm -rf dist",
-    "build": "tsup index.ts --out-dir dist --format esm,cjs --target node18 --dts --clean && cp -r views dist/views && cp -r migrations dist/migrations && cp -r public dist/public",
+    "build": "tsup index.ts --out-dir dist --format esm && cp -r views dist/views && cp -r migrations dist/migrations && cp -r public dist/public",
     "start": "node dist/index.js",
     "db:migrate": "node migrate.js",
     "dev": "tsx watch index.ts -- --no-sourcemap --cache-dir .tsx-cache"
