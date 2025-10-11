@@ -92,10 +92,6 @@ export class App {
         await this.server.listen({ host, port: portNumber })
         console.log(`🚀 Server listening at http://localhost:${portNumber}`)
     }
-
-
-
-
     /**
      * Register all root-level public routes (non-authenticated pages).
      * 
