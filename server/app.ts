@@ -25,7 +25,7 @@ import { Eta } from 'eta'
 import { dirname, join } from 'path'
 import { fileURLToPath } from 'url'
 import { db } from './database.js'
-import { loginRoute, signupRoute } from './routes/auth.js'
+import { loginRoute, logoutRoute, signupRoute } from './routes/auth.js'
 import { mintCert, newCourse } from './routes/user.js'
 import { sessionAuth } from './libs/sessions.js'
 
@@ -113,6 +113,7 @@ export class App {
             return res.view('signin', { title: 'Login' }, { layout: 'base' })
         })
 
+
         // Registration page
         app.get('/auth/signup', async (req, res) => {
             return res.view('signup', { title: 'Register' }, { layout: 'base' })
@@ -132,6 +133,7 @@ export class App {
         app.register(async (appInner) => {
             appInner.route(loginRoute)
             appInner.route(signupRoute)
+            appInner.route(logoutRoute)
         }, { prefix: '/auth' })
     }
 

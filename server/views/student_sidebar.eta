@@ -23,7 +23,23 @@
     <ul style="list-style: none; padding: 0">
       <li><a href="/dashboard/student">Courses</a></li>
       <li><a href="#">Account</a></li>
-
+      <li style="margin-top: 1.5rem">
+        <form action="/auth/logout" method="POST" style="display: inline;">
+          <button type="submit" style="
+              background-color: crimson;
+              color: white;
+              border: none;
+              padding: 0.6rem 1.2rem;
+              border-radius: 8px;
+              cursor: pointer;
+              font-weight: 600;
+              width: 100%;
+              text-align: left;
+            ">
+            Logout
+          </button>
+        </form>
+      </li>
     </ul>
   </nav>
 </aside>

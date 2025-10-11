@@ -15,34 +15,37 @@ const signupRoute = {
             email: string
             password: string
             confirm_password: string
-            is_issuer: boolean
+            is_issuer?: boolean | string | null
             institution_name?: string
             full_name?: string
         }
     }>, res: FastifyReply) => {
-        const { email, password, confirm_password, is_issuer, institution_name, full_name } = req.body
+        let { email, password, confirm_password, is_issuer, institution_name, full_name } = req.body
 
-        // Validation
+        const isIssuerBool =
+            is_issuer === true ||
+            is_issuer === 'true' ||
+            is_issuer === 'on'
+
         if (password !== confirm_password) {
-            return res.status(400).send({ error: "Passwords do not match" })
+            return res.status(400).send({ error: 'Passwords do not match' })
         }
         if (password.length < 5) {
-            return res.status(400).send({ error: "Password must be at least 5 characters" })
+            return res.status(400).send({ error: 'Password must be at least 5 characters' })
         }
 
-        // Check if email already exists
         const existing = await db.execute({
-            sql: "SELECT 1 FROM users WHERE email = ? LIMIT 1",
+            sql: 'SELECT 1 FROM users WHERE email = ? LIMIT 1',
             args: [email]
         })
         if (existing.rows.length > 0) {
-            return res.status(400).send({ error: "Email already in use" })
+            return res.status(400).send({ error: 'Email already in use' })
         }
 
         const hashedPassword = await hashPassword(password)
         const address = await newPrivateKey()
 
-        const role = is_issuer ? 'issuer' : 'student'
+        const role = isIssuerBool ? 'issuer' : 'student'
 
         try {
             await db.execute({
@@ -56,15 +59,21 @@ const signupRoute = {
                     full_name || institution_name || '',
                     role,
                     address,
-                    is_issuer ? institution_name || '' : null
+                    isIssuerBool ? institution_name || '' : null
                 ]
             })
-            res.redirect("/login");
+
+            if (req.headers['content-type']?.includes('application/json')) {
+                return res.send({ success: true })
+            } else {
+                return res.redirect('/login')
+            }
         } catch (err) {
-            console.error("Signup error:", err)
-            res.status(500).send({ error: "Failed to register user" })
+            console.error('Signup error:', err)
+            res.status(500).send({ error: 'Failed to register user' })
         }
     },
+
     schema: {
         body: {
             type: 'object',
@@ -72,11 +81,11 @@ const signupRoute = {
                 email: { type: 'string' },
                 password: { type: 'string' },
                 confirm_password: { type: 'string' },
-                is_issuer: { type: 'boolean', default: false },
+                is_issuer: { type: ['boolean', 'string', 'null'], default: false },
                 institution_name: { type: 'string' },
                 full_name: { type: 'string' }
             },
-            required: ['email', 'password', 'confirm_password', 'is_issuer']
+            required: ['email', 'password', 'confirm_password']
         }
     }
 }
@@ -140,4 +149,47 @@ const loginRoute: RouteOptions = {
         }
     }
 }
-export { loginRoute, signupRoute }
+
+/* ============================
+   LOGOUT ROUTE
+============================ */
+const logoutRoute: RouteOptions = {
+    method: 'POST',
+    url: '/logout',
+    handler: async (req: FastifyRequest, res: FastifyReply) => {
+        // Get session cookie
+        const sessionId = req.cookies.session_id
+        if (!sessionId) {
+            // Even if there's no cookie, respond with success — no need to leak session logic
+            return res.redirect('/login')
+        }
+
+        try {
+            // Delete session from DB
+            await db.execute({
+                sql: 'DELETE FROM sessions WHERE id = ?',
+                args: [sessionId]
+            })
+
+            // Clear cookie
+            res.clearCookie('session_id', {
+                path: '/',
+                httpOnly: true,
+                sameSite: 'lax',
+                secure: process.env.NODE_ENV !== 'development'
+            })
+
+            // Redirect or send JSON depending on context
+            if (req.headers['content-type']?.includes('application/json')) {
+                return res.send({ success: true })
+            } else {
+                return res.redirect('/login')
+            }
+
+        } catch (err) {
+            console.error('Logout error:', err)
+            res.status(500).send({ error: 'Failed to log out' })
+        }
+    }
+}
+export { loginRoute, signupRoute, logoutRoute }
